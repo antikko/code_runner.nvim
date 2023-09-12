@@ -27,7 +27,7 @@ local function replaceVars(command, path, user_argument)
   command = command:gsub("$end", "")
 
   if command == no_sub_command then
-    command = command .. " " .. path
+    command = command .. " " .. "\"" .. path .. "\""
   end
 
   return command
@@ -39,6 +39,7 @@ end
 local function getProjectRootPath()
   local projects = o.get().project
   local current_file_path = vim.fn.expand("%:p")
+  current_file_path = current_file_path:gsub("\\", "/")
   local projects_paths = vim.tbl_keys(projects)
   for _, path in ipairs(projects_paths) do
     path_full = vim.fs.normalize(path)
